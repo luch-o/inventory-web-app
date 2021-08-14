@@ -5,4 +5,4 @@ Esta aplicación web se desarrolla como proyecto para el ciclo 4 del programa Mi
 Integreantes:
 - Luis Carlos Rodriguez Barrios
 - David Rueda Cárdenas
-
+- Valery Retamoza Ortega
