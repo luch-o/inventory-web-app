@@ -7,4 +7,5 @@ Integreantes:
 - David Rueda Cárdenas
 - Valery Retamoza Ortega
 - Camilo Andrés Navarro Díaz
+- Miguel Andrés Cañas Pérez
 
