@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from . import secrets
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-emvd&9_4j4st9$$&-fi^5kme0%$nd3!-$pv1o!v!a1&q0^ncua'
+SECRET_KEY = secrets.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -99,14 +101,7 @@ WSGI_APPLICATION = 'usersProject.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'ec2-52-203-74-38.compute-1.amazonaws.com',
-        'NAME': 'dd5fs3qp3tjae0',
-        'USER': 'bmnuovfukagsoi',
-        'PORT': '5432',
-        'PASSWORD': 'aae35295645b89b4edc5463cc2e9420771fada2ba0eea7956eb7af30843b48c9',
-    }
+    'default': secrets.DB_CREDENCIALES
 }
 
 
