@@ -8,16 +8,17 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.Serializable;
+import java.util.*;
 
 
 @Document(collection = "Sale")
 @Data
-public class Sale {
+public class Sale implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigoVenta;
 
     @Field(name = "fecha")
@@ -29,7 +30,7 @@ public class Sale {
     @Size(min = 1,max = 40)
     private Integer cedulaCliente;
 
-    @DBRef // Toma como referencia el array de producto sin ser parte de una entidad relacional
+    //@DBRef // Toma como referencia el array de producto sin ser parte de una entidad relacional
     private ArrayList<Productos> productosCarrito;
 
     @Field(name = "subTotal")
@@ -46,5 +47,62 @@ public class Sale {
 
     public Sale() {
 
+    }
+
+
+    public Long getCodigoVenta() {
+        return codigoVenta;
+    }
+
+    public void setCodigoVenta(Long codigoVenta) {
+        this.codigoVenta = codigoVenta;
+    }
+
+    public Date getFechaVenta() {
+        return fechaVenta;
+    }
+
+    public void setFechaVenta(Date fechaVenta) {
+        this.fechaVenta = fechaVenta;
+    }
+
+    public Integer getCedulaCliente() {
+        return cedulaCliente;
+    }
+
+    public void setCedulaCliente(Integer cedulaCliente) {
+        this.cedulaCliente = cedulaCliente;
+    }
+
+    public ArrayList<Productos> getProductosCarrito() {
+        return productosCarrito;
+    }
+
+    public void setProductosCarrito(ArrayList<Productos> productosCarrito) {
+        this.productosCarrito = productosCarrito;
+    }
+
+    public Float getSubTotalVenta() {
+        return subTotalVenta;
+    }
+
+    public void setSubTotalVenta(Float subTotalVenta) {
+        this.subTotalVenta = subTotalVenta;
+    }
+
+    public Float getTotalIvaVenta() {
+        return totalIvaVenta;
+    }
+
+    public void setTotalIvaVenta(Float totalIvaVenta) {
+        this.totalIvaVenta = totalIvaVenta;
+    }
+
+    public Sale(Date fechaVenta, Integer cedulaCliente, ArrayList<Productos> productosCarrito, Float subTotalVenta, Float totalIvaVenta) {
+        this.fechaVenta = fechaVenta;
+        this.cedulaCliente = cedulaCliente;
+        this.productosCarrito = productosCarrito;
+        this.subTotalVenta = subTotalVenta;
+        this.totalIvaVenta = totalIvaVenta;
     }
 }

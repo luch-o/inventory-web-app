@@ -30,19 +30,18 @@ public class Productos {
     @Field(name = "precio")
     @NotNull(message = "Especifique el precio")
     @Size(min = 1,max = 20)
-    private float precioProducto;
+    private double precioProducto;
 
     @Field(name = "cantidad")
     @NotNull(message = "Especifique la cantidad")
     @Size(min = 1,max = 10)
     private Integer cantidadProducto;
 
-    public Productos(String nombreProducto, float precioProducto, Integer cantidadProducto, Integer codigoProducto) {
+    public Productos(String nombreProducto, Integer codigoProducto, double precioProducto, Integer cantidadProducto) {
         this.nombreProducto = nombreProducto;
+        this.codigoProducto = codigoProducto;
         this.precioProducto = precioProducto;
         this.cantidadProducto = cantidadProducto;
-        this.codigoProducto = codigoProducto;
-
     }
 
     public String getId() {
@@ -63,6 +62,34 @@ public class Productos {
 
     public void descontarInventario(Integer cantidadProducto){
         this.cantidadProducto -= cantidadProducto;
+    }
+
+    public Integer getCodigoProducto() {
+        return codigoProducto;
+    }
+
+    public void setCodigoProducto(Integer codigoProducto) {
+        this.codigoProducto = codigoProducto;
+    }
+
+    public double getPrecioProducto() {
+        return precioProducto;
+    }
+
+    public void setPrecioProducto(float precioProducto) {
+        this.precioProducto = precioProducto;
+    }
+
+    public Integer getCantidadProducto() {
+        return cantidadProducto;
+    }
+
+    public void setCantidadProducto(Integer cantidadProducto) {
+        this.cantidadProducto = cantidadProducto;
+    }
+
+    public void aumentarCantidad() {
+        this.cantidadProducto++;
     }
 
     public boolean sinCantidad() {
