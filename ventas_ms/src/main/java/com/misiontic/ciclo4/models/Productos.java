@@ -1,6 +1,9 @@
 package com.misiontic.ciclo4.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import javax.persistence.GeneratedValue;
@@ -9,9 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import com.misiontic.ciclo4.models.ProductosSeleccionados;
 
 @Document(collection = "Productos")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+//@RequiredArgsConstructor
 public class Productos {
 
     @Id
@@ -30,18 +37,25 @@ public class Productos {
     @Field(name = "precio")
     @NotNull(message = "Especifique el precio")
     @Size(min = 1,max = 20)
-    private double precioProducto;
+    private Double precioProducto;
 
-    @Field(name = "cantidad")
+    @Field(name = "inventario")
     @NotNull(message = "Especifique la cantidad")
     @Size(min = 1,max = 10)
     private Integer cantidadProducto;
 
-    public Productos(String nombreProducto, Integer codigoProducto, double precioProducto, Integer cantidadProducto) {
+    public Productos(String nombreProducto, Double precioProducto, Integer cantidadProducto, Integer codigoProducto) {
         this.nombreProducto = nombreProducto;
-        this.codigoProducto = codigoProducto;
         this.precioProducto = precioProducto;
         this.cantidadProducto = cantidadProducto;
+        this.codigoProducto = codigoProducto;
+
+    }
+
+    public Productos(String nombreProducto, Double precioProducto, Integer codigoProducto) {
+        this.nombreProducto = nombreProducto;
+        this.precioProducto = precioProducto;
+        this.codigoProducto = codigoProducto;
     }
 
     public String getId() {
@@ -62,34 +76,6 @@ public class Productos {
 
     public void descontarInventario(Integer cantidadProducto){
         this.cantidadProducto -= cantidadProducto;
-    }
-
-    public Integer getCodigoProducto() {
-        return codigoProducto;
-    }
-
-    public void setCodigoProducto(Integer codigoProducto) {
-        this.codigoProducto = codigoProducto;
-    }
-
-    public double getPrecioProducto() {
-        return precioProducto;
-    }
-
-    public void setPrecioProducto(float precioProducto) {
-        this.precioProducto = precioProducto;
-    }
-
-    public Integer getCantidadProducto() {
-        return cantidadProducto;
-    }
-
-    public void setCantidadProducto(Integer cantidadProducto) {
-        this.cantidadProducto = cantidadProducto;
-    }
-
-    public void aumentarCantidad() {
-        this.cantidadProducto++;
     }
 
     public boolean sinCantidad() {
