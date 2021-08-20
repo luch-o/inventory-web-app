@@ -42,4 +42,13 @@ def product_delete(request, pk):
     product = Product.objects.get(code=pk)
     product.delete()
     return Response('Product succesfully deleted')
-    
+
+@api_view(['PATCH'])
+def product_update_stock(request, pk):
+    product = Product.objects.get(code=pk)
+    serializer = ProductSerializer(instance=product, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return HttpResponseBadRequest("Invalid request body")
+    return Response(serializer.data)
