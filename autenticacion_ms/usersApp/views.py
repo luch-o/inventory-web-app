@@ -23,8 +23,8 @@ def create_user(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(request.data)
-    return Response("Invalid request", status=400)
+        return Response(f"User {request.data['username']} created succesfully", status=status.HTTP_201_CREATED)
+    return Response("Invalid request", status=status.HTTP_400_BAD_REQUEST)
     
 
 class VerifyTokenView(TokenVerifyView):
