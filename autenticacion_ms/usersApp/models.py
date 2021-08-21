@@ -19,7 +19,7 @@ class UserManager(BaseUserManager):
         return user
         
 
-class bankUser(AbstractBaseUser, PermissionsMixin):
+class AppUser(AbstractBaseUser, PermissionsMixin):
     id = models.BigAutoField(primary_key=True)
     username = models.CharField('Name', max_length = 15, unique=True)
     password = models.CharField('Password', max_length = 256)

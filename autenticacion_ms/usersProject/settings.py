@@ -75,7 +75,7 @@ REST_FRAMEWORK = {
     )
 }
 
-AUTH_USER_MODEL = 'usersApp.bankUser'
+AUTH_USER_MODEL = 'usersApp.AppUser'
 
 ROOT_URLCONF = 'usersProject.urls'
 

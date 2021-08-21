@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import bankUser
+from .models import AppUser
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = bankUser
+        model = AppUser
         fields = ["username", "password"]
 
     def create(self, validated_data):

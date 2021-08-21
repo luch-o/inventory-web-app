@@ -10,11 +10,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .serializers import UserSerializer
-from .models import bankUser, UserManager
+from .models import AppUser, UserManager
 
 @api_view(['GET'])
 def user_list(request):
-    users = bankUser.objects.all()
+    users = AppUser.objects.all()
     serializers = UserSerializer(users, many=True)
     return Response(serializers.data)
 
