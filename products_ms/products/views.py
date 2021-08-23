@@ -1,54 +1,33 @@
-from django.http import HttpResponseBadRequest
-
-from rest_framework.decorators import api_view
+from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
-from .serializers import ProductSerializer
-from .models import Product
+from products.serializers import ProductSerializer
+from products.models import Product
 
-@api_view(['GET'])
-def product_list(request):
-    products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
 
-@api_view(['GET'])
-def product_detail(request, pk):
-    products = Product.objects.get(code=pk)
-    serializer = ProductSerializer(products, many=False)
-    return Response(serializer.data)
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
-@api_view(['POST'])
-def product_create(request):
-    serializer = ProductSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        return HttpResponseBadRequest("Invalid request body")
-    return Response(serializer.data)
-
-@api_view(['POST'])
-def product_update(request, pk):
-    product = Product.objects.get(code=pk)
-    serializer = ProductSerializer(instance=product, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        return HttpResponseBadRequest("Invalid request body")
-    return Response(serializer.data)
-    
-@api_view(['DELETE'])
-def product_delete(request, pk):
-    product = Product.objects.get(code=pk)
-    product.delete()
-    return Response('Product succesfully deleted')
-
-@api_view(['PATCH'])
-def product_update_stock(request, pk):
-    product = Product.objects.get(code=pk)
-    serializer = ProductSerializer(instance=product, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        return HttpResponseBadRequest("Invalid request body")
-    return Response(serializer.data)
+    @action(detail=True, methods=['PATCH'])
+    def reduce(self, request, *args, **kwargs):
+        """
+        Extra `reduce` action to reduce a product stock by a given amount
+        """
+        quantity_key = 'quantity'
+        product = self.get_object()
+        if quantity_key not in request.data:
+            return Response({
+                "detail": f"{quantity_key} field expected"
+            }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        quantity = request.data[quantity_key]
+        stock = product.stock - quantity
+        if stock < 0:
+            return Response({
+                "detail": "Not enough product units in stock"
+            }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        product.stock = stock
+        product.save()
+        serializer = self.serializer_class(product, context={'request': request})
+        return Response(serializer.data)
