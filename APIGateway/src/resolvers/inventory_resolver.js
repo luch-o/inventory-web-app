@@ -1,4 +1,8 @@
 const inventoryResolver = {
-    //Query
+    Query:{
+        productById: (_, {productId}, { dataSources, userIdToken}) => {
+
+    },
+
 };
 module.exports = inventoryResolver;
