@@ -24,6 +24,10 @@ class LoginAPI extends RESTDataSource{
         return await this.post(`/register/`);
     }
 
+    async userById(userId){
+        return await this.get(`/users/${userId}`); //Obtener usuario por ID
+    }
+
     
 
 
