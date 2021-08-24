@@ -8,6 +8,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface ProductosRepository extends MongoRepository<Productos,Long> {
      Productos findBynombreProducto(String nombreProducto);
      Productos findByCodigoProducto (Integer codigoProducto);
-     ProductosSeleccionados findByCantidad(Double cantidad);
 
 }

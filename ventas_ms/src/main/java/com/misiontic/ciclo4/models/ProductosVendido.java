@@ -4,42 +4,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 
 @Document
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 //@RequiredArgsConstructor
 public class ProductosVendido {
 
-    @Id
-    private Integer id;
 
-    private Double cantidad;
-    private Double precio;
-    private String nombre;
+    @Id
     private Integer codigo;
 
+    private Double precio;
+    private String nombre;
+    private Integer cantidad;
+
     public ProductosVendido(Integer codigo, Double precio, String nombre, Integer cantidad) {
-
+        this.codigo = codigo;
+        this.precio=precio;
+        this.nombre=nombre;
+        this.cantidad=cantidad;
     }
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Double getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Double cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -66,4 +63,13 @@ public class ProductosVendido {
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
-}
+
+    public Double getSubTotal(){
+        return this.getPrecio() * this.getCantidad();
+    }
+
+    public Double getTotal(){
+        return this.getSubTotal()* 1.19;
+    }
+    }
+

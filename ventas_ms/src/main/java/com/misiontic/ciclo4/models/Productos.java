@@ -16,35 +16,34 @@ import com.misiontic.ciclo4.models.ProductosSeleccionados;
 
 @Document(collection = "Productos")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-//@RequiredArgsConstructor
+
 public class Productos {
 
-    @Id
-    private String id_productos;
 
-    @Field(name = "nombre")
+    //private String id_productos;
+
+    @Field(name = "nombre") /*
     @NotNull(message = "Especifique el nombre")
-    @Size(min = 1,max = 40)
+    @Size(min = 1,max = 40) */
     private String nombreProducto;
 
-    @Field(name = "codigo")
+    @Id
+    @Field(name = "codigo")/*
     @NotNull(message = "Especifique el codigo")
-    @Size(min = 1,max = 20)
+    @Size(min = 1,max = 20)*/
     private Integer codigoProducto;
 
-    @Field(name = "precio")
+    @Field(name = "precio")/*
     @NotNull(message = "Especifique el precio")
-    @Size(min = 1,max = 20)
+    @Size(min = 1,max = 20)*/
     private Double precioProducto;
 
-    @Field(name = "inventario")
+    @Field(name = "inventario")/*
     @NotNull(message = "Especifique la cantidad")
-    @Size(min = 1,max = 10)
+    @Size(min = 1,max = 10)*/
     private Integer cantidadProducto;
 
-    public Productos(String nombreProducto, Double precioProducto, Integer cantidadProducto, Integer codigoProducto) {
+    public Productos(String nombreProducto, Integer codigoProducto, Double precioProducto, Integer cantidadProducto) {
         this.nombreProducto = nombreProducto;
         this.precioProducto = precioProducto;
         this.cantidadProducto = cantidadProducto;
@@ -52,18 +51,9 @@ public class Productos {
 
     }
 
-    public Productos(String nombreProducto, Double precioProducto, Integer codigoProducto) {
-        this.nombreProducto = nombreProducto;
-        this.precioProducto = precioProducto;
-        this.codigoProducto = codigoProducto;
-    }
 
-    public String getId() {
-        return id_productos;
-    }
+    public Productos() {
 
-    public void setId(String id) {
-        this.id_productos = id_productos;
     }
 
     public String getNombreProducto() {
@@ -76,10 +66,6 @@ public class Productos {
 
     public void descontarInventario(Integer cantidadProducto){
         this.cantidadProducto -= cantidadProducto;
-    }
-
-    public boolean sinCantidad() {
-        return this.cantidadProducto <= 0;
     }
 
 }
