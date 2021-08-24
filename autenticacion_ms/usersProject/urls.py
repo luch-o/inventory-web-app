@@ -16,7 +16,7 @@ Including another URLconf
 #from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
-from usersApp.views import VerifyTokenView, create_user, user_list
+from usersApp.views import VerifyTokenView, create_user, user_list, user_detail
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -24,5 +24,6 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view()),
     path('token/verify/', VerifyTokenView.as_view()),
     path('register/', create_user),
-    path('list/', user_list)
+    path('list/', user_list),
+    path('users/<int:pk>/', user_detail)   
 ]

@@ -18,6 +18,12 @@ def user_list(request):
     serializers = UserSerializer(users, many=True)
     return Response(serializers.data)
 
+@api_view(['GET'])
+def user_detail(request, pk):
+    user = AppUser.objects.get(pk= pk)
+    serializers = UserSerializer(user)
+    return Response(serializers.data)
+
 @api_view(['POST'])
 def create_user(request):
     serializer = UserSerializer(data=request.data)
