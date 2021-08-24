@@ -1,36 +1,27 @@
 
 from django.conf import settings
-from rest_framework import serializers, status
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenVerifyView
 from rest_framework_simplejwt.backends import TokenBackend
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import mixins, viewsets
 
 from .serializers import UserSerializer
-from .models import AppUser, UserManager
+from .models import AppUser
 
-@api_view(['GET'])
-def user_list(request):
-    users = AppUser.objects.all()
-    serializers = UserSerializer(users, many=True)
-    return Response(serializers.data)
 
-@api_view(['GET'])
-def user_detail(request, pk):
-    user = AppUser.objects.get(pk= pk)
-    serializers = UserSerializer(user)
-    return Response(serializers.data)
-
-@api_view(['POST'])
-def create_user(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(f"User {request.data['username']} created succesfully", status=status.HTTP_201_CREATED)
-    return Response("Invalid request", status=status.HTTP_400_BAD_REQUEST)
+class UserVIewSet(mixins.CreateModelMixin,
+                  mixins.ListModelMixin,
+                  mixins.RetrieveModelMixin,
+                  viewsets.GenericViewSet):
+    """
+    A viewset that provides `retrieve`, `create`, and `list` actions for the User Model.
+    """
+    queryset = AppUser.objects.all()
+    serializer_class = UserSerializer
     
 
 class VerifyTokenView(TokenVerifyView):
