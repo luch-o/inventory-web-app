@@ -7,8 +7,8 @@ const resolvers = require('./resolvers');
 //const UsersAPI = require('./dataSources/users_api');
 
 const LoginAPI = require('./dataSources/login_api');
-const SalesAPI = require('./dataSources/sales_api');
-const InventoryAPI  = require('./dataSources/inventory_api');
+//const SalesAPI = require('./dataSources/sales_api');
+//const InventoryAPI  = require('./dataSources/inventory_api');
 
 const authentication = require('./utils/authentication');
 
@@ -21,8 +21,8 @@ const server = new ApolloServer({
         //accountAPI: new AccountAPI(),
         //usersAPI: new UsersAPI(),
         loginAPI: new LoginAPI(),
-        salesAPI: new SalesAPI(),
-        inventoryAPI: new InventoryAPI(), 
+        //salesAPI: new SalesAPI(),
+        //inventoryAPI: new InventoryAPI(), 
 
     }),
     introspection: true,
