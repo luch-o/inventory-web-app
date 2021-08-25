@@ -1,10 +1,9 @@
 const loginResolver ={
     Query:{
-        userById:(_, {userId}, {dataSources, userIdToken}) => {
-            if(userId == userIdToken) 
-                return dataSources.LoginAPI.userById(userId)
-            else
-                return null
+        userById:(_,{id}, {dataSources}) => {
+
+            return dataSources.LoginAPI.userById();
+            
         },
     },
 
