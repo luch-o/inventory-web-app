@@ -1,26 +1,15 @@
 package com.misiontic.ciclo4.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import javax.persistence.Id;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import com.misiontic.ciclo4.models.ProductosSeleccionados;
 
 @Document(collection = "Productos")
 @Data
 
 public class Productos {
-
-
-    //private String id_productos;
 
     @Field(name = "nombre") /*
     @NotNull(message = "Especifique el nombre")
@@ -51,9 +40,7 @@ public class Productos {
 
     }
 
-
     public Productos() {
-
     }
 
     public String getNombreProducto() {
@@ -68,4 +55,13 @@ public class Productos {
         this.cantidadProducto -= cantidadProducto;
     }
 
+    public Double getSubTotal(){
+        return this.cantidadProducto * this.precioProducto ;
+    }
+
+    public Double getTotal(){
+        return this.getSubTotal()* 1.19;
+    }
 }
+
+
