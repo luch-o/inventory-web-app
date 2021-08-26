@@ -13,7 +13,7 @@ from .serializers import UserSerializer
 from .models import AppUser
 
 
-class UserVIewSet(mixins.CreateModelMixin,
+class UserViewSet(mixins.CreateModelMixin,
                   mixins.ListModelMixin,
                   mixins.RetrieveModelMixin,
                   viewsets.GenericViewSet):
