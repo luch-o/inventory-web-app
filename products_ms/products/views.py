@@ -1,4 +1,4 @@
-from rest_framework import serializers, viewsets, status
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
@@ -29,5 +29,5 @@ class ProductViewSet(viewsets.ModelViewSet):
             }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         product.stock = stock
         product.save()
-        serializer = self.serializer_class(product)
+        serializer = self.serializer_class(product, context={'request': request})
         return Response(serializer.data)
