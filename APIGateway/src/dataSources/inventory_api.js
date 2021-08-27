@@ -5,16 +5,17 @@ const serverConfig = require('../server');
 class InventoryAPI extends RESTDataSource {
     constructor(){
         super();
-        this.baseURL = serverConfig.login_api_url;
+        this.baseURL = serverConfig.inventory_api_url;
     }
 
-    async productById(productId){   
-        return await this.get(`/products/${productId}`);  //Muestra producto por ID
+    async productById(productId){
+        console.log(productId)
+        return await this.get(`/products/${productId}/`);  //Muestra producto por ID
 
     }
     async createProduct(product){
         product = new Object(JSON.parse(JSON.stringify(product)));  //Crear un producto
-        return await this.post('/products',product);
+        return await this.post('/products/',product);
 
     }
     async modifyProduct(productId, modProduct){

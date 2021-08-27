@@ -3,16 +3,31 @@ const { gql } = require('apollo-server');
 const inventoryTypeDefs = gql`
 
     type Product {
-
-        code: String!
+        cuentaid: Int
         name: String
         description: String
-        price: Integer
-        stock: Integer
+        price: Int
+        stock: Int
+    }
+    input getproductoid{
+        productoid: Int
+        cuentaid: Int
+    }
+    
+    input addnewproduct{
+        cuentaid: Int!
+        name: String
+        description: String
+        price: Int
+        stock: Int
     }
 
     type Query{
-        productById(code: String!): Product
+        productById(productId: getproductoid): Product
+    }
+
+    type Mutation{
+        createProduct(product: addnewproduct): Product
     }
 `;
 

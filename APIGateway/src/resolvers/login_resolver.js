@@ -6,7 +6,6 @@ const loginResolver ={
             else
                 return null
             
-            
         
         },
 
@@ -23,11 +22,15 @@ const loginResolver ={
             return dataSources.LoginAPI.registerUser(user)
         },
 
-        authenticate:(_,{credentials}, {dataSources}) =>{
+        authRequest:(_,{credentials}, {dataSources}) =>{
 
             return dataSources.LoginAPI.authRequest(credentials)
         },
 
+        refreshToken:(_,{refresh}, {dataSources}) => {
+
+            return dataSources.LoginAPI.refreshToken(refresh)
+        },
 
     }
 

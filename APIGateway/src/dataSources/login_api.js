@@ -14,6 +14,7 @@ class LoginAPI extends RESTDataSource{
     }
 
     async refreshToken(token) {
+        
         token = new Object(JSON.parse(JSON.stringify({refresh: token}))); //Renovacion del token de acceso
         return await this.post(`/token/refresh/`, token);
     }
@@ -31,8 +32,6 @@ class LoginAPI extends RESTDataSource{
     async getAllUsers(){
         return await this.get(`/users/`); //Obtener lista de usuarios
     }
-
-    
 
 
 }
