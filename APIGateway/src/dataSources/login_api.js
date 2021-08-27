@@ -20,8 +20,8 @@ class LoginAPI extends RESTDataSource{
 
 
     async registerUser(user){
-        user = new Object(JSON.parse(JSON.stringify(user))); //Registra usuario
-        return await this.post(`/users/`);
+        user = new Object(JSON.parse(JSON.stringify(user)));//Registra usuario
+        return await this.post(`/users/`, user);
     }
 
     async userById(userId){
