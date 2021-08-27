@@ -1,14 +1,18 @@
 const loginResolver ={
     Query:{
-        userById:(_,{userId}, {dataSources}) => {
+        userById:(_,{userId}, {dataSources, userIdToken}) => {
+            if(userId == userIdToken)
+                return dataSources.LoginAPI.userById(userId)
+            else
+                return null
             
-            return dataSources.LoginAPI.userById(userId);
+            
         
         },
 
         getAllUsers:(_, __, {dataSources}) => {
 
-            return dataSources.LoginAPI.getAllUsers();
+            return dataSources.LoginAPI.getAllUsers()
         },
 
         
@@ -16,8 +20,15 @@ const loginResolver ={
 
     Mutation:{
         registerUser:(_,{user},{dataSources}) => {
-            return dataSources.LoginAPI.registerUser(user);
+            return dataSources.LoginAPI.registerUser(user)
         },
+
+        authenticate:(_,{credentials}, {dataSources}) =>{
+
+            return dataSources.LoginAPI.authRequest(credentials)
+        },
+
+
     }
 
 

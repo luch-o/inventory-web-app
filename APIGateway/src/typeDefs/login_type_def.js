@@ -5,6 +5,8 @@ const loginTypeDefs = gql`
         id: Int
         username: String
         password: String
+        access: String!
+        refresh: String!
     }
   
 
@@ -12,6 +14,7 @@ const loginTypeDefs = gql`
         username: String!
         password: String!
     }
+    
 
     type Query{
         userById(userId: Int!): Login
@@ -21,8 +24,11 @@ const loginTypeDefs = gql`
     
     type Mutation{
         registerUser(user:sign_in): Login
+        
     }
-
+    extend type Mutation{
+        authenticate(credentials:sign_in): Login
+    }
    
     
 
