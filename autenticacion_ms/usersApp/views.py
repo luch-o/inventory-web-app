@@ -7,7 +7,7 @@ from rest_framework_simplejwt.backends import TokenBackend
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
 from rest_framework.response import Response
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, status
 
 from .serializers import UserSerializer
 from .models import AppUser
@@ -20,8 +20,19 @@ class UserViewSet(mixins.CreateModelMixin,
     """
     A viewset that provides `retrieve`, `create`, and `list` actions for the User Model.
     """
+    model = AppUser
     queryset = AppUser.objects.all()
     serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        if not 'username' in request.data or not 'password' in request.data:
+            return Response({
+                "detail": "Expected \'username\' and \'password\' keys in request body"
+            }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        user = self.model(username=request.data["username"])
+        user.set_password(request.data["password"])
+        user.save()
+        return Response(self.serializer_class(user).data)
     
 
 class VerifyTokenView(TokenVerifyView):

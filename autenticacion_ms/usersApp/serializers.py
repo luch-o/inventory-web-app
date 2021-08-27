@@ -5,4 +5,5 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppUser
         fields = ["id", "username"]
+        #fields = ["id", "username", "password"]
     
