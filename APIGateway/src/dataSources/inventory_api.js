@@ -9,7 +9,6 @@ class InventoryAPI extends RESTDataSource {
     }
 
     async productById(productId){
-        console.log(productId)
         return await this.get(`/products/${productId}/`);  //Muestra producto por ID
 
     }
