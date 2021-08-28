@@ -1,4 +1,4 @@
-const { partial } = require("lodash");
+const { partial, property } = require("lodash");
 
 const inventoryResolver = {
     Query:{
@@ -52,24 +52,26 @@ const inventoryResolver = {
         },
 
         reduceProductRedStock:(_,{productId}, {dataSources,userIdToken}) =>{
-            let separation = {"stock":productId.stock}
+            let separation = {"quantity":productId.stock}
             let body1 = JSON.parse(JSON.stringify(separation))
             let var1 = productId.id
-            console.log(productId)
-            console.log(body1)
-            console.log(var1)
-            //if(productId.cuentaid == userIdToken)
-                return dataSources.InventoryAPI.reduceProductRedStock(var1,body1) //Nueva variable aqui
-            //else
-                //return null
+            if(productId.cuentaid == userIdToken)
+                return dataSources.InventoryAPI.reduceProductRedStock(var1,body1)
+            else
+                return null
         },
         
-        //modifyProduct:(_,{productId, modProduct},{dataSources,userIdToken}) =>{
-            //if
-                //return dataSources.InventoryAPI.modifiyProduct(varid,varbody)
-            //else
-                //return null
-        //},
+        modifyProduct:(_,{productId},{dataSources,userIdToken}) =>{
+            let separation = {"id":productId.id,"name":productId.name, "description":productId.description,"stock":productId.stock,"price":productId.price}
+            let body1 = JSON.parse(JSON.stringify(separation))
+            let var1 = productId.id
+            console.log(separation)
+            console.log(body1)
+            if(productId.cuentaid == userIdToken)
+                return dataSources.InventoryAPI.modifyProduct(var1,body1)
+            else
+                return null
+        },
 
     },
 

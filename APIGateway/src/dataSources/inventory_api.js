@@ -20,7 +20,7 @@ class InventoryAPI extends RESTDataSource {
     }
     async modifyProduct(productId, modProduct){
         modProduct = new Object(JSON.parse(JSON.stringify(modProduct)));
-        return await this.put(`/products/${productId}`, modProduct);   //Modificar un producto
+        return await this.put(`/products/${productId}/`, modProduct);   //Modificar un producto
 
     }
     async deleteProductById(productId){

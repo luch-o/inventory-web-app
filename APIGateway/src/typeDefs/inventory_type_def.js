@@ -49,10 +49,10 @@ const inventoryTypeDefs = gql`
 
     type Mutation{
         createProduct(product: addnewproduct): Product
-        
     }
     
     extend type Mutation{
+        modifyProduct(productId: modproducto): Product
         deleteProduct(productId: getproductoid): Product
         inventoryProductMod(productId: modproducto): Product
         reduceProductRedStock(productId: redproducto): Product
