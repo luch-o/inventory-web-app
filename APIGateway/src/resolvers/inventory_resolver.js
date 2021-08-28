@@ -65,8 +65,6 @@ const inventoryResolver = {
             let separation = {"id":productId.id,"name":productId.name, "description":productId.description,"stock":productId.stock,"price":productId.price}
             let body1 = JSON.parse(JSON.stringify(separation))
             let var1 = productId.id
-            console.log(separation)
-            console.log(body1)
             if(productId.cuentaid == userIdToken)
                 return dataSources.InventoryAPI.modifyProduct(var1,body1)
             else
