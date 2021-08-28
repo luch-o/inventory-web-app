@@ -1,3 +1,5 @@
+const { partial } = require("lodash");
+
 const inventoryResolver = {
     Query:{
         productById: (_, {productId}, { dataSources, userIdToken}) => {
@@ -8,24 +10,67 @@ const inventoryResolver = {
                 return dataSources.InventoryAPI.productById(productId.productoid);
 
             else
-                
+
                 return null
+            
+        },
+
+        inventoryProducts:(_, __, {dataSources}) =>{
+            
+            return dataSources.InventoryAPI.inventoryProducts();
             
         }
     },
 
     Mutation:{
         createProduct:(_, {product},{dataSources,userIdToken}) =>{
-            let variable = {"name":product.name, "description":product.description, "price":product.price, "stock":product.stock}
-            let var1 = JSON.parse(JSON.stringify(variable))
-            console.log(product)
-            console.log(var1)
+            let separation = {"name":product.name, "description":product.description, "price":product.price, "stock":product.stock}
+            let body = JSON.parse(JSON.stringify(separation))
             if(product.cuentaid == userIdToken)
-                return dataSources.InventoryAPI.createProduct(var1)
+                return dataSources.InventoryAPI.createProduct(body)
             else
                 return null
 
-        }
+        },
+
+        deleteProduct:(_,{productId},{dataSources, userIdToken}) =>{
+            if(productId.cuentaid == userIdToken)
+                return dataSources.InventoryAPI.deleteProduct(productId.productoid)
+            else
+                return null
+        },
+
+        inventoryProductMod:(_,{productId},{dataSources,userIdToken}) =>{
+            let separation = {"name":productId.name, "description":productId.description, "price":productId.price, "stock":productId.stock}
+            let body1 = JSON.parse(JSON.stringify(separation))
+            let var1 = productId.id
+            
+            if(productId.cuentaid == userIdToken)
+                return dataSources.InventoryAPI.inventoryProductMod(var1,body1) //Nueva variable aqui
+            else
+                return null
+        },
+
+        reduceProductRedStock:(_,{productId}, {dataSources,userIdToken}) =>{
+            let separation = {"stock":productId.stock}
+            let body1 = JSON.parse(JSON.stringify(separation))
+            let var1 = productId.id
+            console.log(productId)
+            console.log(body1)
+            console.log(var1)
+            //if(productId.cuentaid == userIdToken)
+                return dataSources.InventoryAPI.reduceProductRedStock(var1,body1) //Nueva variable aqui
+            //else
+                //return null
+        },
+        
+        //modifyProduct:(_,{productId, modProduct},{dataSources,userIdToken}) =>{
+            //if
+                //return dataSources.InventoryAPI.modifiyProduct(varid,varbody)
+            //else
+                //return null
+        //},
+
     },
 
 };

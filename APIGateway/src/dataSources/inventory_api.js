@@ -31,14 +31,14 @@ class InventoryAPI extends RESTDataSource {
         return await this.get(`/products/`); //Muestra todos los productos
 
     }
-    async inventoryProductById(productId, partialProduct){
+    async inventoryProductMod(productId, partialProduct){
         partialProduct = new Object(JSON.parse(JSON.stringify(partialProduct))); //Modificacion parcial del producto
-        return await this.patch(`/products/${productId}`, partialProduct);
+        return await this.patch(`/products/${productId}/`, partialProduct);
 
     }
-    async reduceProductById(productId, redProduct){
+    async reduceProductRedStock(productId, redProduct){
         redProduct = new Object(JSON.parse(JSON.stringify(redProduct)));
-        return await this.patch(`/products/${productId}/reduce`, redProduct); //Reducir stock del producto por ID
+        return await this.patch(`/products/${productId}/reduce/`, redProduct); //Reducir stock del producto por ID
 
     }
 
