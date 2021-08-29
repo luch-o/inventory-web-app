@@ -9,8 +9,8 @@ from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework.response import Response
 from rest_framework import mixins, viewsets, status
 
-from .serializers import UserSerializer
-from .models import AppUser
+from usersApp.serializers import UserSerializer
+from usersApp.models import AppUser
 
 
 class UserViewSet(mixins.CreateModelMixin,
@@ -25,14 +25,17 @@ class UserViewSet(mixins.CreateModelMixin,
     serializer_class = UserSerializer
 
     def create(self, request, *args, **kwargs):
-        if not 'username' in request.data or not 'password' in request.data:
+        try:
+            user = self.model.objects.create_user(**request.data)
+            return Response(self.serializer_class(user).data)
+        except ValueError as e:
             return Response({
-                "detail": "Expected \'username\' and \'password\' keys in request body"
-            }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-        user = self.model(username=request.data["username"])
-        user.set_password(request.data["password"])
-        user.save()
-        return Response(self.serializer_class(user).data)
+                'detail': str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
+        except Exception:
+            return Response({
+                'detail': "Expecting only \'username\' and \'password\' in request"
+            }, status=status.HTTP_400_BAD_REQUEST)    
     
 
 class VerifyTokenView(TokenVerifyView):
