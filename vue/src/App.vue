@@ -2,7 +2,7 @@
 <nav class="navbar navbar-light bg-light fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">INVENTARIO FERRETERIA</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+    <button v-if="is_auth" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -26,20 +26,79 @@
       </div>
     </div>
   </div>
+  
 </nav>
+
+  <div class="main-component">
+      <router-view v-on:log-in="logIn"></router-view>
+  </div>
 </template>
 
 <script>
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap/dist/js/bootstrap"
+  import "bootstrap/dist/css/bootstrap.min.css"
+  import "bootstrap/dist/js/bootstrap"
+  import gql from "graphql-tag";
 
-export default {
-  name: 'App',
-  components: {
-    
+  export default {
+    name: "App",
+
+    data: function () {
+      return {
+        is_auth: false,
+      };
+    },
+
+    created: function () {
+      this.updateAccessToken();
+    },
+
+    methods:{
+
+      updateAccessToken: async function () {
+        if (localStorage.getItem("refresh_token") == null) {
+          this.$router.push({ name: "login" });
+          this.is_auth = false;
+          return;
+        }
+        await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation RefreshTokenMutation($refreshTokenRefresh: String) {
+              refreshToken(refresh: $refreshTokenRefresh) {
+                access
+              }
+            }
+          `,
+          variables: {
+            refreshTokenRefresh: localStorage.getItem("refresh_token"),
+          },
+        })
+        .then((result) => {
+          localStorage.setItem("access_token", result.data.refreshToken.access);
+          this.is_auth = true;
+        })
+        .catch((error) => {
+          alert("Su sesión expiró, vuelva a iniciar sesión.");
+          this.$router.push({ name: "user_auth" });
+          this.is_auth = false;
+          localStorage.clear();
+        });
+
+      },
+
+      logIn: async function (data, username) {
+        localStorage.setItem("access_token", data.access);
+        localStorage.setItem("refresh_token", data.refresh);
+        localStorage.setItem("user_id", data.user_id);
+        localStorage.setItem("current_username", username);
+
+        await this.updateAccessToken();
+        if (this.is_auth) this.init();
+      },
+
+
+    },
   }
-
-}
 </script>
 
 <style>
