@@ -31,6 +31,7 @@ export default {
 </script>
 
 <style>
+
     input[type="usuario"] {
         border-bottom-left-radius: 0px;
         border-bottom-right-radius: 0px;
@@ -39,4 +40,5 @@ export default {
         border-bottom-left-radius: 0px;
         border-bottom-right-radius: 0px;
     }
+    
 </style>
