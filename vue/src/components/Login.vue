@@ -16,7 +16,7 @@
             </div>
             <br>
             <div class="Registrar usuario">
-                <a class="link__registro" href="/registrousuario/">Registrate</a>
+                <a class="link__registro" href="/signin" >Registrate</a>
             </div>
         </form>
     </div>
@@ -43,6 +43,8 @@
         },
 
         methods: {
+            
+
             processAuthUser: async function(){
                 await this.$apollo.mutate({
                     mutation: gql`
@@ -57,13 +59,16 @@
                     }
                     
                 })  .then((result) => {
-
-                        let data = result.data.authenticate
+                        console.log(result)
+                        let data = result.data.authRequest
+                        
                         data.user_id = jwt_decode(data.access).user_id.toString().padStart(3, "0")
 
                         this.$emit('log-in', data, this.user_in.username)
-
+ 
                     }).catch((error) => {
+
+                        console.log(error)
                         alert("El usuario y/o contraseña son incorrectos")
                     });
                     
