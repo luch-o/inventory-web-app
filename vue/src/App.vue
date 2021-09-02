@@ -21,17 +21,24 @@
           <li class="nav-item">
             <a class="nav-link" href="#">VENTAS</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" v-on:click="logOut" data-bs-dismiss="offcanvas" >CERRAR SESION</a>
+          </li>
         </ul>
           
       </div>
     </div>
   </div>
-  
+
 </nav>
 
   <div class="main-component">
+      
       <router-view v-on:log-in="logIn"></router-view>
+      
   </div>
+
+  
 </template>
 
 <script>
@@ -49,11 +56,15 @@
     },
 
     created: function () {
-      this.updateAccessToken();
+
+      if(this.is_auth == true){
+        this.updateAccessToken();
+      }
+      
     },
 
     methods:{
-
+      //Preguntar registro, porque no pinta el registro, error await en el apollo
       updateAccessToken: async function () {
         if (localStorage.getItem("refresh_token") == null) {
           this.$router.push({ name: "login" });
@@ -79,22 +90,42 @@
         })
         .catch((error) => {
           alert("Su sesión expiró, vuelva a iniciar sesión.");
-          this.$router.push({ name: "user_auth" });
+          this.$router.push({ name: "login" });
           this.is_auth = false;
           localStorage.clear();
         });
-
+        
       },
 
       logIn: async function (data, username) {
+        
         localStorage.setItem("access_token", data.access);
         localStorage.setItem("refresh_token", data.refresh);
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("current_username", username);
 
         await this.updateAccessToken();
-        if (this.is_auth) this.init();
+        if (this.is_auth){
+          this.home();
+        } 
       },
+
+      home: function () {
+        this.$router.push({
+          name: "home",
+          params: { username: localStorage.getItem("current_username") },
+        });
+      },
+      logOut: async function () {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("user_id");
+        localStorage.removeItem("current_username");
+        alert("Se ha cerrado sesion exitosamente");
+        await this.updateAccessToken();
+      },
+
+      
 
 
     },
@@ -105,6 +136,8 @@
   *{
     background: white;
   }
-
+  p{
+    margin: 100px;
+  }
   
 </style>
